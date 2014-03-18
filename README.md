@@ -26,7 +26,9 @@ $ /usr/lib64/nagios/plugins/check_lcgsam -v <vo> -p <profile> -s <site> [-f <fla
 ```
 As you can see it has four parameters. 
 - vo (-v), profile (-p) and site (-s) are mandatory. 
-- flavour (-f) is optional. You can specify multiple flavours, one, or none. If you specify no flavour, this will return all flavours for this vo, profile and site combination.
+- flavour (-f) is optional. You can specify multiple flavours, one, or none. 
+
+\* If you specify no flavour, this will return all flavours for this vo, profile and site combination.
 
 You can see an example of how it works by running it on your command line:
 ```
