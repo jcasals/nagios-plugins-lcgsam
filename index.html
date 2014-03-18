@@ -31,37 +31,98 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        <h1>
+<a name="nagios-plugin-for-lcg-sam" class="anchor" href="#nagios-plugin-for-lcg-sam"><span class="octicon octicon-link"></span></a>Nagios Plugin for LCG SAM</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<h3>
+<a name="overview" class="anchor" href="#overview"><span class="octicon octicon-link"></span></a>Overview</h3>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<p>This is a Nagios plugin to check Service Availability Monitoring required test for <a href="http://wlcg.web.cern.ch/">LCG</a> (LHC Computing Grid) sites.</p>
+
+<p>This check uses the dashboard data for every project based on the Nagios Site Usability tests (SUM).</p>
+
+<h3>
+<a name="authors" class="anchor" href="#authors"><span class="octicon octicon-link"></span></a>Authors</h3>
+
+<p>Mindcrafted by Pablo Saiz (CERN) and Pepe Flix (<a href="www.pic.es">PIC</a>). Handcrafted by Jordi Casals (<a href="www.pic.es">PIC</a>).</p>
+
+<p>Contact: jcasals (at) pic (dot) es</p>
+
+<h3>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h3>
+
+<p>It consists on a Bash script and the only requirement is to have <a href="http://stedolan.github.io/jq/">JQ</a>, a simple and flexible JSON processor for bash.</p>
+
+<h3>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h3>
+
+<p>You just have to install it via RPM and, if you don't have JQ on your server, it will install it as requirement.</p>
+
+<pre><code>$ yum install nagios-plugins-lcgsam
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<h3>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h3>
+
+<pre><code>$ /usr/lib64/nagios/plugins/check_lcgsam -v &lt;vo&gt; -p &lt;profile&gt; -s &lt;site&gt; [-f &lt;flavour1[,flavour2,...]&gt;]
+</code></pre>
+
+<p>As you can see it has four parameters. </p>
+
+<ul>
+<li>vo (-v), profile (-p) and site (-s) are mandatory. </li>
+<li>flavour (-f) is optional. You can specify multiple flavours, one, or none. If you specify no flavour, this will return all flavours for this vo, profile and site combination.</li>
+</ul><p>You can see an example of how it works by running it on your command line:</p>
+
+<pre><code>$ /usr/lib64/nagios/plugins/check_lcgsam -v atlas -p ATLAS_CRITICAL -s pic -f CREAM-CE,SRMv2
+CREAM-CE: OK // SRMv2: OK
+
+HOSTS
+======
+CREAM-CE
+ce07.pic.es: OK
+ce08.pic.es: OK
+ce09.pic.es: OK
+ce10.pic.es: OK
+ce11.pic.es: OK
+SRMv2
+srmatlas.pic.es: OK
+
+All hosts in flavour/s CREAM-CE,SRMv2 OK!
+</code></pre>
 
 <h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<a name="setup-for-nagios" class="anchor" href="#setup-for-nagios"><span class="octicon octicon-link"></span></a>Setup for Nagios</h3>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>To add the plugin to your Nagios System you just have to create a command as you usually do with other plugins. A sample of command line input on the NagiosQL setup can be:</p>
+
+<pre><code>$USER1$/check_lcgsam -v $ARG1$ -p $ARG2$ -s $ARG3$ -f $ARG4$
+</code></pre>
+
+<p>Or if you prefer, you can create this command on your commands</p>
+
+<pre><code>define command {
+    command_name    check_lcgsam
+    command_line    $USER1$/check_lcgsam -v $ARG1$ -p $ARG2$ -s $ARG3$ -f $ARG4$
+}
+</code></pre>
 
 <h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<a name="optional-setup-for-nagios" class="anchor" href="#optional-setup-for-nagios"><span class="octicon octicon-link"></span></a>Optional Setup for Nagios</h3>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>We tried to add a little more information to the Nagios output, so we added the option to have a link that points out to the error information, in case there is an error. For some reason (we can imagine it's for security) there are some characters not admitted, and in addition the HTML is disabled in the output. To change this you have to modify two files.</p>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<p><strong>/usr/local/nagios/etc/cgi.cfg</strong> <em>or your equivalent cgi.cfg</em></p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<pre><code># escape_html_tags=1
+escape_html_tags=0
+</code></pre>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<p><strong>/usr/local/nagios/etc/nagios.cfg</strong> <em>or your equivalent nagios.cfg or icinga.cfg</em></p>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<pre><code># illegal_object_name_chars=`~!$%^&amp;*|'"&lt;&gt;?,()=
+illegal_object_name_chars=`~!$%^&amp;*|'"?,()=
+</code></pre>
       </section>
     </div>
 
