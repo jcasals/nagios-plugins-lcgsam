@@ -114,13 +114,13 @@ All hosts in flavour/s CREAM-CE,SRMv2 OK!
 
 <p>We tried to add a little more information to the Nagios output, so we added the option to have a link that points out to the error information, in case there is an error. For some reason (we can imagine it's for security) there are some characters not admitted, and in addition the HTML is disabled in the output. To change this you have to modify two files.</p>
 
-<p><strong>/usr/local/nagios/etc/cgi.cfg</strong> <em>or your equivalent cgi.cfg</em></p>
+<p><strong><em>/usr/local/nagios/etc/cgi.cfg</em></strong> <em>or your equivalent cgi.cfg</em></p>
 
 <pre><code># escape_html_tags=1
 escape_html_tags=0
 </code></pre>
 
-<p><strong>/usr/local/nagios/etc/nagios.cfg</strong> <em>or your equivalent nagios.cfg or icinga.cfg</em></p>
+<p><strong><em>/usr/local/nagios/etc/nagios.cfg</em></strong> <em>or your equivalent nagios.cfg or icinga.cfg</em></p>
 
 <pre><code># illegal_object_name_chars=`~!$%^&amp;*|'"&lt;&gt;?,()=
 illegal_object_name_chars=`~!$%^&amp;*|'"?,()=
