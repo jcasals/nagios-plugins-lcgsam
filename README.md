@@ -12,7 +12,7 @@ Mindcrafted by Pablo Saiz (CERN) and Pepe Flix ([PIC](www.pic.es)). Handcrafted 
 Contact: jcasals (at) pic (dot) es
 
 ### Requirements
-It consists on a Bash script and the only requirement is to have [JQ](http://stedolan.github.io/jq/), a simple and flexible JSON processor for bash.
+It consists on a Bash script and the only requirement is to have [JQ](http://stedolan.github.io/jq/) package installed, a simple and flexible JSON processor for bash.
 
 ### Installation
 You just have to install it via RPM and, if you don't have JQ on your server, it will install it as requirement.
