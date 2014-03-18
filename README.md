@@ -2,9 +2,9 @@ Nagios Plugin for LCG SAM
 =========================
 
 ### Overview
-This is a Nagios plugin to check Service Availability Monitoring required test for [LCG](http://wlcg.web.cern.ch/) (LHC Computing Grid) sites.
+This is a Nagios plugin to check Service Availability Monitoring required test meant to be used by the sites forming [ALICE](http://home.web.cern.ch/about/experiments/alice), [ATLAS](http://home.web.cern.ch/about/experiments/atlas), [CMS](http://home.web.cern.ch/about/experiments/cms) and [LHCB](http://home.web.cern.ch/about/experiments/lhcb) experiments.
 
-This check uses the dashboard data for every project based on the Nagios Site Usability tests (SUM).
+This check uses the dashboard data for these experiments based on the Nagios Site Usability tests (SUM).
 
 ### Authors
 Mindcrafted by Pablo Saiz (CERN) and Pepe Flix ([PIC](www.pic.es)). Handcrafted by Jordi Casals ([PIC](www.pic.es)).
@@ -61,6 +61,7 @@ define command {
     command_line    $USER1$/check_lcgsam -v $ARG1$ -p $ARG2$ -s $ARG3$ -f $ARG4$
 }
 ```
+
 ### Optional Setup for Nagios
 We tried to add a little more information to the Nagios output, so we added the option to have a link that points out to the error information, in case there is an error. For some reason (we can imagine it's for security) there are some characters not admitted, and in addition the HTML is disabled in the output. To change this you have to modify two files.
 
