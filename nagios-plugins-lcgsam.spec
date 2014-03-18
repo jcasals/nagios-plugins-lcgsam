@@ -6,7 +6,7 @@ Summary:	Service Availability Monitoring for LCG sites
 Group:		System/Monitoring
 License:	GPLv2+
 URL:		https://github.com/jcasals/
-#Source0:	%{name}-%{version}-%{release}.tar.gz
+# Source0:	%{name}-%{version}-%{release}.tar.gz
 Source0:	%{name}.tar.gz
 # BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRoot:	%{_tmppath}/%{name}
