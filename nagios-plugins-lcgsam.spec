@@ -8,6 +8,7 @@ License:	GPLv2+
 URL:		https://github.com/jcasals/
 #Source0:	%{name}-%{version}-%{release}.tar.gz
 Source0:	%{name}.tar.gz
+# BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRoot:	%{_tmppath}/%{name}
 
 Requires:	jq
@@ -16,6 +17,7 @@ Requires:	jq
 nagios-plugins-lcgsam is a generic plugin that checks the Services Availability for sites in the LHC Computing Grid.
 
 %prep
+# %setup -q -n %{name}-%{version}-%{release}
 %setup -q -n %{name}
 
 %install
@@ -30,7 +32,7 @@ echo "Plugin installed succesfully!"
 echo ""
 echo "Please, take a look at the requirements in"
 echo "the documentation to set up the plugin at:"
-echo "https://github.com/jcasals/nagios-plugins-lcgsam"
+echo "http://jcasals.github.io/nagios-plugins-lcgsam"
 echo ""
 echo "Thank you and enjoy this plugin as much as we do :D"
 echo ""
