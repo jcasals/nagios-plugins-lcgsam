@@ -2,7 +2,7 @@ Nagios Plugin for LCG SAM
 =========================
 
 ### Overview
-This is a Nagios plugin to check Service Availability Monitoring required test meant to be used by the sites forming [ALICE](http://home.web.cern.ch/about/experiments/alice), [ATLAS](http://home.web.cern.ch/about/experiments/atlas), [CMS](http://home.web.cern.ch/about/experiments/cms) and [LHCB](http://home.web.cern.ch/about/experiments/lhcb) experiments.
+This is a Nagios plugin to check Service Availability Monitoring required test meant to be used by the sites forming [ALICE](http://home.web.cern.ch/about/experiments/alice), [ATLAS](http://home.web.cern.ch/about/experiments/atlas), [CMS](http://home.web.cern.ch/about/experiments/cms) and [LHCb](http://home.web.cern.ch/about/experiments/lhcb) experiments.
 
 This check uses the dashboard data for these experiments based on the Nagios Site Usability tests (SUM).
 
