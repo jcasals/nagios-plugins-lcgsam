@@ -109,10 +109,12 @@ All hosts in flavour/s CREAM-CE,SRMv2 OK!
 }
 </code></pre>
 
-<h3>
-<a name="optional-setup-for-nagios" class="anchor" href="#optional-setup-for-nagios"><span class="octicon octicon-link"></span></a>Optional Setup for Nagios</h3>
+<h4>
+<a name="optional-setup-for-nagios" class="anchor" href="#optional-setup-for-nagios"><span class="octicon octicon-link"></span></a>Optional Setup for Nagios</h4>
 
-<p>We tried to add a little more information to the Nagios output, so we added the option to have a link that points out to the error information, in case there is an error. For some reason (we can imagine it's for security) there are some characters not admitted, and in addition the HTML is disabled in the output. To change this you have to modify two files.</p>
+<p>We tried to add a little more information to the Nagios output, so we wanted to add links that points out to the errors, in case it was an error. We found there are some characters not admitted, and that the HTML is disabled in the output. </p>
+
+<p>To change this you have to modify two files.</p>
 
 <p><strong><em>/usr/local/nagios/etc/cgi.cfg</em></strong> <em>or your equivalent cgi.cfg</em></p>
 
