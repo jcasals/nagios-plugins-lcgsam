@@ -54,7 +54,7 @@ To add the plugin to your Nagios System you just have to create a command as you
 ```
 $USER1$/check_lcgsam -v $ARG1$ -p $ARG2$ -s $ARG3$ -f $ARG4$
 ```
-Or if you prefer, you can create this command on your commands
+Or if you prefer, you can create this command on your *commands.cfg* file:
 ```
 define command {
     command_name    check_lcgsam
