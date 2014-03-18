@@ -65,12 +65,12 @@ define command {
 ### Optional Setup for Nagios
 We tried to add a little more information to the Nagios output, so we added the option to have a link that points out to the error information, in case there is an error. For some reason (we can imagine it's for security) there are some characters not admitted, and in addition the HTML is disabled in the output. To change this you have to modify two files.
 
-**/usr/local/nagios/etc/cgi.cfg** *or your equivalent cgi.cfg*
+***/usr/local/nagios/etc/cgi.cfg*** *or your equivalent cgi.cfg*
 ```
 # escape_html_tags=1
 escape_html_tags=0
 ```
-**/usr/local/nagios/etc/nagios.cfg** *or your equivalent nagios.cfg or icinga.cfg*
+***/usr/local/nagios/etc/nagios.cfg*** *or your equivalent nagios.cfg or icinga.cfg*
 ```
 # illegal_object_name_chars=`~!$%^&*|'"<>?,()=
 illegal_object_name_chars=`~!$%^&*|'"?,()=
