@@ -62,7 +62,7 @@ define command {
 }
 ```
 
-### Optional Setup for Nagios
+#### Optional Setup for Nagios
 We tried to add a little more information to the Nagios output, so we wanted to add links that points out to the errors, in case it was an error. We found there are some characters not admitted, and that the HTML is disabled in the output. 
 
 To change this you have to modify two files.
