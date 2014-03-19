@@ -7,7 +7,7 @@ This is a Nagios plugin to check Service Availability Monitoring required test m
 This check uses the dashboard data for these experiments based on the Nagios Site Usability tests (SUM).
 
 ### Authors
-Mindcrafted by Pablo Saiz (CERN) and Pepe Flix ([PIC](www.pic.es)). Handcrafted by Jordi Casals ([PIC](www.pic.es)).
+Mindcrafted by Pablo Saiz ([CERN](http://www.cern.ch)) and Pepe Flix ([PIC](http://www.pic.es)). Handcrafted by Jordi Casals ([PIC](http://www.pic.es)).
 
 Contact: jcasals (at) pic (dot) es
 
