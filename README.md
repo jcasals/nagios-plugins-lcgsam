@@ -12,11 +12,11 @@ Mindcrafted by Pablo Saiz ([CERN](http://www.cern.ch)) and Pepe Flix ([PIC](http
 Contact: jcasals (at) pic (dot) es
 
 ### Changelog
-Wed Dec 3 2014 1.1.0
-\- Changed URL to use SAM3
-Mon Mar 18 2014 1.0.1
+Wed Dec 3 2014 1.1.0<br>
+\- Changed URL to use SAM3<br>
+Mon Mar 18 2014 1.0.1<br>
 \- Added server error check<br>
-Fri Mar 14 2014 1.0.0
+Fri Mar 14 2014 1.0.0<br>
 \- First Release!
 
 ### Requirements
