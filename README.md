@@ -13,13 +13,11 @@ Contact: jcasals (at) pic (dot) es
 
 ### Changelog
 Wed Dec 3 2014 1.1.0
-- Changed URL to use SAM3
-
+\- Changed URL to use SAM3
 Mon Mar 18 2014 1.0.1
-- Added server error check
-
+\- Added server error check
 Fri Mar 14 2014 1.0.0
-- First Release!
+\- First Release!
 
 ### Requirements
 It consists on a Bash script and the only requirement is to have [JQ](http://stedolan.github.io/jq/) package installed, a simple and flexible JSON processor for bash.
