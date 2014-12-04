@@ -12,12 +12,9 @@ Mindcrafted by Pablo Saiz ([CERN](http://www.cern.ch)) and Pepe Flix ([PIC](http
 Contact: jcasals (at) pic (dot) es
 
 ### Changelog
-\* Wed Dec 3 2014 1.1.0<br>
-\- Changed URL to use SAM3<br>
-\* Mon Mar 18 2014 1.0.1<br>
-\- Added server error check<br>
-\* Fri Mar 14 2014 1.0.0<br>
-\- First Release!
+*Wed Dec 3 2014 1.1.0:* Changed URL to use SAM3<br>
+*Mon Mar 18 2014 1.0.1:* Added server error check, using SAM2<br>
+*Fri Mar 14 2014 1.0.0:* First Release!
 
 ### Requirements
 It consists on a Bash script and the only requirement is to have [JQ](http://stedolan.github.io/jq/) package installed, a simple and flexible JSON processor for bash.
