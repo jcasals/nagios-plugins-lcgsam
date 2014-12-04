@@ -1,5 +1,5 @@
 Name:		nagios-plugins-lcgsam
-Version:	1.0.1
+Version:	1.1.0
 Release:	1%{?dist}
 Summary:	Service Availability Monitoring for LCG sites
 
@@ -47,6 +47,8 @@ rm -rf %{buildroot}
 %doc
 
 %changelog
+* Wed Dec 3 2014 Jordi Casals <jcasals@pic.es> 1.1.0
+- Changed URL to use SAM3
 * Mon Mar 18 2014 Jordi Casals <jcasals@pic.es> 1.0.1
 - Added server error check
 * Fri Mar 14 2014 Jordi Casals <jcasals@pic.es> 1.0.0
