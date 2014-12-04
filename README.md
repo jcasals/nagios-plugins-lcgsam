@@ -15,7 +15,7 @@ Contact: jcasals (at) pic (dot) es
 Wed Dec 3 2014 1.1.0
 \- Changed URL to use SAM3
 Mon Mar 18 2014 1.0.1
-\- Added server error check
+\- Added server error check<br>
 Fri Mar 14 2014 1.0.0
 \- First Release!
 
