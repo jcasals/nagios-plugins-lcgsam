@@ -2,9 +2,9 @@
 <html>
 
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Nagios Plugin LCG SAM : Service Availability Monitoring for LCG sites" />
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Nagios Plugin LCG SAM : Service Availability Monitoring for LCG sites">
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -32,29 +32,50 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h1>
-<a name="nagios-plugin-for-lcg-sam" class="anchor" href="#nagios-plugin-for-lcg-sam"><span class="octicon octicon-link"></span></a>Nagios Plugin for LCG SAM</h1>
+<a id="nagios-plugin-for-lcg-sam" class="anchor" href="#nagios-plugin-for-lcg-sam" aria-hidden="true"><span class="octicon octicon-link"></span></a>Nagios Plugin for LCG SAM</h1>
 
 <h3>
-<a name="overview" class="anchor" href="#overview"><span class="octicon octicon-link"></span></a>Overview</h3>
+<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview</h3>
 
 <p>This is a Nagios plugin to check Service Availability Monitoring required test meant to be used by the sites forming <a href="http://home.web.cern.ch/about/experiments/alice">ALICE</a>, <a href="http://home.web.cern.ch/about/experiments/atlas">ATLAS</a>, <a href="http://home.web.cern.ch/about/experiments/cms">CMS</a> and <a href="http://home.web.cern.ch/about/experiments/lhcb">LHCb</a> experiments.</p>
 
 <p>This check uses the dashboard data for these experiments based on the Nagios Site Usability tests (SUM).</p>
 
 <h3>
-<a name="authors" class="anchor" href="#authors"><span class="octicon octicon-link"></span></a>Authors</h3>
+<a id="authors" class="anchor" href="#authors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors</h3>
 
 <p>Mindcrafted by Pablo Saiz (<a href="http://www.cern.ch">CERN</a>) and Pepe Flix (<a href="http://www.pic.es">PIC</a>). Handcrafted by Jordi Casals (<a href="http://www.pic.es">PIC</a>).</p>
 
 <p>Contact: jcasals (at) pic (dot) es</p>
 
 <h3>
-<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h3>
+<a id="changelog" class="anchor" href="#changelog" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog</h3>
+
+<p>Wed Dec 3 2014 1.1.0</p>
+
+<ul>
+<li>Changed URL to use SAM3</li>
+</ul>
+
+<p>Mon Mar 18 2014 1.0.1</p>
+
+<ul>
+<li>Added server error check</li>
+</ul>
+
+<p>Fri Mar 14 2014 1.0.0</p>
+
+<ul>
+<li>First Release!</li>
+</ul>
+
+<h3>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h3>
 
 <p>It consists on a Bash script and the only requirement is to have <a href="http://stedolan.github.io/jq/">JQ</a> package installed, a simple and flexible JSON processor for bash.</p>
 
 <h3>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h3>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h3>
 
 <p>You just have to install it via RPM and, if you don't have JQ on your server, it will install it as requirement.</p>
 
@@ -62,7 +83,7 @@
 </code></pre>
 
 <h3>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h3>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h3>
 
 <pre><code>$ /usr/lib64/nagios/plugins/check_lcgsam -v &lt;vo&gt; -p &lt;profile&gt; -s &lt;site&gt; [-f &lt;flavour1[,flavour2,...]&gt;]
 </code></pre>
@@ -72,7 +93,9 @@
 <ul>
 <li>vo (-v), profile (-p) and site (-s) are mandatory. </li>
 <li>flavour (-f) is optional. You can specify multiple flavours, one, or none. </li>
-</ul><p>* If you specify no flavour, this will return all flavours for this vo, profile and site combination.</p>
+</ul>
+
+<p>* If you specify no flavour, this will return all flavours for this vo, profile and site combination.</p>
 
 <p>You can see an example of how it works by running it on your command line:</p>
 
@@ -94,7 +117,7 @@ All hosts in flavour/s CREAM-CE,SRMv2 OK!
 </code></pre>
 
 <h3>
-<a name="setup-for-nagios" class="anchor" href="#setup-for-nagios"><span class="octicon octicon-link"></span></a>Setup for Nagios</h3>
+<a id="setup-for-nagios" class="anchor" href="#setup-for-nagios" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setup for Nagios</h3>
 
 <p>To add the plugin to your Nagios System you just have to create a command as you usually do with other plugins. A sample of command line input on the NagiosQL setup can be:</p>
 
@@ -110,7 +133,7 @@ All hosts in flavour/s CREAM-CE,SRMv2 OK!
 </code></pre>
 
 <h4>
-<a name="optional-setup-for-nagios" class="anchor" href="#optional-setup-for-nagios"><span class="octicon octicon-link"></span></a>Optional Setup for Nagios</h4>
+<a id="optional-setup-for-nagios" class="anchor" href="#optional-setup-for-nagios" aria-hidden="true"><span class="octicon octicon-link"></span></a>Optional Setup for Nagios</h4>
 
 <p>We tried to add a little more information to the Nagios output, so we wanted to add links that points out to the errors, in case it was an error. We found there are some characters not admitted, and that the HTML is disabled in the output. </p>
 
