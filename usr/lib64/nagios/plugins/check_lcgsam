@@ -33,7 +33,7 @@ while getopts ":v:p:s:f::h:" arg; do
 done
 
 # Get JSON content using input arguments
-json=$(wget -qO - "http://dashb-$vo-sum.cern.ch/dashboard/request.py/latestresultssmry-sumjson?profile=$profile&flavour=$flavour&site=$site")
+json=$(wget -qO - "http://wlcg-sam-${vo}.cern.ch/dashboard/request.py/latestresultssmry-json?profile=${profile}&flavour=$flavour&site=${site}")
 
 # Checking if there is an error on the server
 # If error, returns UNKNOWN
