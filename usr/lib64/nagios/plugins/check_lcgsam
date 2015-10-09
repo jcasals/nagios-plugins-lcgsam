@@ -61,24 +61,28 @@ else
 			# Find all metric names in this host
 			hostStatus=$(echo $json | jq -r '.data.results[].flavours[].hosts[] | select(.hostname=="'$h'") | .hostStatus')
 			out=$out"$h: $hostStatus\n"
-			
+		
 			# If HOST is OK, don't check anything else
 			if [[ $hostStatus != "OK" ]]; then
 				# Get metrics for this host if it's not OK
+				# We change the IFS because since SAM3 changes, 
+				# some metrics have spaces and they are detected wrong
+				IFS=$(echo -en "\n\b");
 				metrics=$(echo $json | jq -r '.data.results[].flavours[].hosts[] | select(.hostname=="'$h'") | .metric[].metric_name')
 
 				for m in $metrics; do
+					timestamp=$(echo $json | jq -c -r ".data.results[].flavours[].hosts[] | select(.hostname==\"$h\") | .metric[] | select(.metric_name==\"$m\") | .timestamp")
 					# Find status value for this metric in this host
 					status=$(echo $json | jq -c -r '.data.results[].flavours[].hosts[] | select(.hostname=="'$h'") | .metric[] | select(.metric_name=="'$m'") | .status')
 					# out="$out\n$m: $status"
 
-					# If there is a problema (a "not OK") we add it to the $problems list
+					# If there is a problem (a "not OK") we add it to the $problems list
 					if [[ $status != "OK" ]]; then
 						# Get the problem timestamp
-						timestamp=$(echo $json | jq -c -r '.data.results[].flavours[].hosts[] | select(.hostname=="'$h'") | .metric[] | select(.metric_name=="'$m'") | .timestamp')
+						timestamp=$(echo $json | jq -c -r ".data.results[].flavours[].hosts[] | select(.hostname==\"$h\") | .metric[] | select(.metric_name==\"$m\") | .timestamp")
 						# Convert the dashboard URL to a short URL 
 						# to save characters for the nagios output
-						url=$(curl -s https://www.googleapis.com/urlshortener/v1/url/ -H 'Content-Type: application/json' -d '{"longUrl": "http://dashb-'$vo'-sum.cern.ch/dashboard/request.py/getMetricResultDetails?hostName='$h'&flavour='$f'&metric='$m'&timeStamp='$timestamp'"}' | jq -r '.id')
+						url=$(curl --data-urlencode -s https://www.googleapis.com/urlshortener/v1/url/ -H 'Content-Type: application/json' -d '{"longUrl": "http://wlcg-sam-'$vo'.cern.ch/dashboard/request.py/metricOutput?host='$h'&flavour='$f'&metricfqan='$m'&time='$timestamp'"}' | jq -r '.id')
 						# Add problem with HTML link to problems output
 						problems="$problems\n$f - $h - <a target='_blank' href='$url'>$m: $status</a>"
 					fi
