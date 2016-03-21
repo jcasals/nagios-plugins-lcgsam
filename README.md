@@ -77,7 +77,7 @@ We tried to add a little more information to the Nagios output, so we wanted to 
 
 To change this you have to modify two files.
 
-***/usr/local/nagios/etc/cgi.cfg*** *or your equivalent cgi.cfg*
+***/usr/local/nagios/etc/cgi.cfg*** *or your equivalent cgi.cfg (icinga, thruk, etc)*
 ```
 # escape_html_tags=1
 escape_html_tags=0
