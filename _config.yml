@@ -1,0 +1,8 @@
+title: Nagios Plugin LCG SAM
+description: Service Availability Monitoring for LCG sites
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-slate
+
+gems:
+  - jekyll-mentions
