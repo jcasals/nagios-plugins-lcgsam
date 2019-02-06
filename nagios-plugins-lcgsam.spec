@@ -1,5 +1,5 @@
 Name:		nagios-plugins-lcgsam
-Version:	1.1.1
+Version:	1.1.2
 Release:	1%{?dist}
 Summary:	Service Availability Monitoring for LCG sites
 
@@ -47,6 +47,8 @@ rm -rf %{buildroot}
 %doc
 
 %changelog
+* Wed Feb 6 2019 Jordi Casals <jcasals@pic.es> 1.1.2
+- Fix on "cannot iterate over null" error, showing UNKNOWN state when a flavour cannot be fetched
 * Wed Oct 9 2015 Jordi Casals <jcasals@pic.es> 1.1.1
 - Fixes after SAM3 migration
 - Corrected base URL for error reporting

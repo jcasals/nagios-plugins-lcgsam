@@ -12,6 +12,8 @@ Mindcrafted by Pablo Saiz ([CERN](http://www.cern.ch)) and Pepe Flix ([PIC](http
 Contact: jcasals (at) pic (dot) es
 
 ### Changelog
+*Wed Feb 6 2019*<br>
+**1.1.2** Fixed a bug where a flavour that couldn't be fetched returns OK<br><br>
 *Wed Oct 9 2015*<br>
 **1.1.1** Multiple fixes after SAM3 migration (revision)<br><br>
 *Wed Dec 3 2014*<br>

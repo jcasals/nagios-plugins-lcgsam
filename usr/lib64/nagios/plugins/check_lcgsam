@@ -46,7 +46,10 @@ if [[ $(echo $json) == "" || $(echo $json | grep "Failed to load topology") != "
 # If there is no error, works normally
 else
 	# Search for all specified flavours (CREAM-CE or SRMv2, for example)
-	flavours=$(echo $json | jq -r '.data.results[].flavours[].flavourname')
+	flavours=$(echo $json | jq -r '.data.results[]? | .flavours[].flavourname')
+        if [[ $flavours == '' ]]; then
+            problems="$problems\n$(echo $json | jq -r '.data.error')"
+        fi
 
 	for f in $flavours; do
 		#out="$out\nFlavour: $f"
