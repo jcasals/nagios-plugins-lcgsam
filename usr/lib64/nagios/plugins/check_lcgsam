@@ -3,10 +3,10 @@
 # LCG SAM Tests check for Nagios
 # Pepe Flix (PIC) | Pablo Saiz (CERN) | Jordi Casals (PIC)
 # Usage:
-# Single Flavour:	./check_lcgsam -v <vo> -p <profile> -s <site> [-f <flavour1>]
-# Multiple Flavours:	./check_lcgsam -v <vo> -p <profile> -s <site> [-f <flavour1[,flavour2,...]>]
+# Single Flavour:    ./check_lcgsam -v <vo> -p <profile> -s <site> [-f <flavour1>]
+# Multiple Flavours:    ./check_lcgsam -v <vo> -p <profile> -s <site> [-f <flavour1[,flavour2,...]>]
 
-# Done using JQ package, a tool like sed for JSON data => http://stedolan.github.io/jq/ 
+# Done using JQ package, a tool like sed for JSON data => http://stedolan.github.io/jq/
 
 # PIC ARGUMENT EXAMPLES
 # atlas                 | cms                   | lhcb
@@ -33,93 +33,84 @@ while getopts ":v:p:s:f::h:" arg; do
 done
 
 # Get JSON content using input arguments
-# SAM2
-# json=$(wget -qO - "http://dashb-$vo-sum.cern.ch/dashboard/request.py/latestresultssmry-sumjson?profile=$profile&flavour=$flavour&site=$site")
-# SAM3
-json=$(wget -qO - "http://wlcg-sam-$vo.cern.ch/dashboard/request.py/latestresultssmry-json?profile=$profile&flavour=$flavour&site=$site")
+json=$(wget -qO - "http://wlcg-sam-${vo}.cern.ch/dashboard/request.py/latestresultssmry-json?profile=$profile&flavour=$flavour&site=$site")
 
 # Checking if there is an error on the server
 # If error, returns UNKNOWN
 if [[ $(echo $json) == "" || $(echo $json | grep "Failed to load topology") != "" ]]; then
-	echo "ATTENTION: It seems that the dashboard server is failing."
-	exit 3;
+    echo "ATTENTION: It seems that the dashboard server is failing."
+    exit 3;
 # If there is no error, works normally
 else
-	# Search for all specified flavours (CREAM-CE or SRMv2, for example)
-	flavours=$(echo $json | jq -r '.data.results[]? | .flavours[].flavourname')
-        if [[ $flavours == '' ]]; then
-            problems="$problems\n$(echo $json | jq -r '.data.error')"
+    # Search for all specified flavours (CREAM-CE or SRMv2, for example)
+    flavours=$(echo $json | jq -r '.data.results[].flavours[].flavourname')
+
+    for f in $flavours; do
+        #out="$out\nFlavour: $f"
+        flavourStatus=$(echo $json | jq -r '.data.results[].flavours[] | select(.flavourname=="'$f'") | .flavourStatus')
+        fl=$fl"$f: $flavourStatus // " # Firstline of results. We output this to be seen on the one line output of nagios
+        out=$out"$f\n" # General output
+
+        # Find all hosts in this flavour
+        hosts=$(echo $json | jq -r '.data.results[].flavours[] | select(.flavourname=="'$f'") | .hosts[].hostname')
+
+        for h in $hosts; do
+            # Find all metric names in this host
+            hostStatus=$(echo $json | jq -r '.data.results[].flavours[].hosts[] | select(.hostname=="'$h'") | .hostStatus')
+            out=$out"$h: $hostStatus\n"
+
+            # If HOST is OK, don't check anything else
+            if [[ $hostStatus != "OK" ]]; then
+                # Get metrics for this host if it's not OK
+                metrics=$(echo "$json" | jq -r '.data.results[].flavours[].hosts[] | select(.hostname=="'$h'") | .metric[].metric_name')
+
+                IFS=$'\n'
+                for m in $metrics; do
+                    # Find status value for this metric in this host
+                    status=$(echo $json | jq -c -r '.data.results[].flavours[].hosts[] | select(.hostname=="'$h'") | .metric[] | select(.metric_name=="'$m'") | .status')
+                    # out="$out\n$m: $status"
+
+                    # If there is a problema (a "not OK") we add it to the $problems list
+                    if [[ $status != "OK" ]]; then
+                        # Get the problem timestamp
+                        timestamp=$(echo $json | jq -c -r '.data.results[].flavours[].hosts[] | select(.hostname=="'$h'") | .metric[] | select(.metric_name=="'$m'") | .timestamp')
+                        # Convert the dashboard URL to a short URL
+                        # to save characters for the nagios output
+                                url=$(curl --silent --data-urlencode "signature=e5a840463d" --data-urlencode "action=shorturl" --data-urlencode "format=simple" --data-urlencode "url=http://wlcg-sam-${vo}.cern.ch/dashboard/request.py/metricOutput?host=$h&metricfqan=$m&time=$timestamp" http://u.pic.es/yourls-api.php)
+                        # Add problem with HTML link to problems output
+                        problems="$problems\n$f - $h - <a target='_blank' href='$url'>$m: $status</a>"
+                    fi
+                done
+            fi
+        done
+    done
+
+    ######################################################################################
+    # From here, all conditions and checks to print the results and send the exit status #
+    ######################################################################################
+
+    # Firstline nagios output. We cut the last 4 characters for a good printing.
+    echo -e "${fl%????}"
+
+    # Output message
+    echo -e "\nHOSTS\n======"
+    echo -e $out
+
+    # If there are some problems, we echo them
+    if [[ $problems != "" ]]; then
+        echo -e "PROBLEMS\n=========$problems"
+
+        # Check and set the global status => Will find a better way in future versions
+        if [[ `echo -e "$fl" | grep ": CRITICAL"` != "" ]]; then exit=2 # There is a Critical
+        elif [[ `echo -e "$fl" | grep ": WARNING"` != "" ]]; then exit=1 # There is a Warning
+        elif [[ `echo -e "$fl" | grep ": OK"` != "" ]]; then exit=0 # There is a Warning
+        else exit=3 # Any other option will send an Unknown
         fi
+    else
+        echo -e "All hosts in flavour/s $flavour OK!"
+        exit=0
+    fi
 
-	for f in $flavours; do
-		#out="$out\nFlavour: $f"
-		flavourStatus=$(echo $json | jq -r '.data.results[].flavours[] | select(.flavourname=="'$f'") | .flavourStatus')
-		fl=$fl"$f: $flavourStatus // " # Firstline of results. We output this to be seen on the one line output of nagios
-		out=$out"$f\n" # General output
-
-		# Find all hosts in this flavour
-		hosts=$(echo $json | jq -r '.data.results[].flavours[] | select(.flavourname=="'$f'") | .hosts[].hostname')
-
-		for h in $hosts; do
-			# Find all metric names in this host
-			hostStatus=$(echo $json | jq -r '.data.results[].flavours[].hosts[] | select(.hostname=="'$h'") | .hostStatus')
-			out=$out"$h: $hostStatus\n"
-		
-			# If HOST is OK, don't check anything else
-			if [[ $hostStatus != "OK" ]]; then
-				# Get metrics for this host if it's not OK
-				# We change the IFS because since SAM3 changes, 
-				# some metrics have spaces and they are detected wrong
-				IFS=$(echo -en "\n\b");
-				metrics=$(echo $json | jq -r '.data.results[].flavours[].hosts[] | select(.hostname=="'$h'") | .metric[].metric_name')
-
-				for m in $metrics; do
-					timestamp=$(echo $json | jq -c -r ".data.results[].flavours[].hosts[] | select(.hostname==\"$h\") | .metric[] | select(.metric_name==\"$m\") | .timestamp")
-					# Find status value for this metric in this host
-					status=$(echo $json | jq -c -r '.data.results[].flavours[].hosts[] | select(.hostname=="'$h'") | .metric[] | select(.metric_name=="'$m'") | .status')
-					# out="$out\n$m: $status"
-
-					# If there is a problem (a "not OK") we add it to the $problems list
-					if [[ $status != "OK" ]]; then
-						# Get the problem timestamp
-						timestamp=$(echo $json | jq -c -r ".data.results[].flavours[].hosts[] | select(.hostname==\"$h\") | .metric[] | select(.metric_name==\"$m\") | .timestamp")
-						# Convert the dashboard URL to a short URL 
-						# to save characters for the nagios output
-						url=$(curl --data-urlencode -s https://www.googleapis.com/urlshortener/v1/url/ -H 'Content-Type: application/json' -d '{"longUrl": "http://wlcg-sam-'$vo'.cern.ch/dashboard/request.py/metricOutput?host='$h'&flavour='$f'&metricfqan='$m'&time='$timestamp'"}' | jq -r '.id')
-						# Add problem with HTML link to problems output
-						problems="$problems\n$f - $h - <a target='_blank' href='$url'>$m: $status</a>"
-					fi
-				done
-			fi
-		done
-	done
-
-	######################################################################################
-	# From here, all conditions and checks to print the results and send the exit status #
-	######################################################################################
-
-	# Firstline nagios output. We cut the last 4 characters for a good printing.
-	echo -e "${fl%????}"
-
-	# Output message
-	echo -e "\nHOSTS\n======"
-	echo -e $out
-
-	# If there are some problems, we echo them
-	if [[ $problems != "" ]]; then
-		echo -e "PROBLEMS\n=========$problems"
-
-		# Check and set the global status => Will find a better way in future versions
-		if [[ `echo -e "$fl" | grep ": CRITICAL"` != "" ]]; then exit=2 # There is a Critical
-		elif [[ `echo -e "$fl" | grep ": WARNING"` != "" ]]; then exit=1 # There is a Warning
-		elif [[ `echo -e "$fl" | grep ": OK"` != "" ]]; then exit=0 # There is a Warning
-		else exit=3 # Any other option will send an Unknown
-		fi
-	else
-		echo -e "All hosts in flavour/s $flavour OK!"
-		exit=0
-	fi
-
-	# Send exit code
-	exit $exit
+    # Send exit code
+    exit $exit
 fi
