@@ -12,6 +12,8 @@ Mindcrafted by Pablo Saiz ([CERN](http://www.cern.ch)) and Pepe Flix ([PIC](http
 Contact: jcasals (at) pic (dot) es
 
 ### Changelog
+*Fri Nov 15 2019*<br>
+**1.1.3** Fix dashboard URLs and replaced Goo.gl URL shortener by PIC's own one.<br><br>
 *Wed Feb 6 2019*<br>
 **1.1.2** Fixed a bug where a flavour that couldn't be fetched returns OK<br><br>
 *Wed Oct 9 2015*<br>
